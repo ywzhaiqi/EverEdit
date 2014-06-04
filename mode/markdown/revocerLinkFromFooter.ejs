@@ -1,0 +1,24 @@
+var doc=App.ActiveDoc;
+var text = doc.Text
+
+var m = text.match(/\[\d+\]: *http.*/g);
+if (m) {
+	var line, num, url;
+	for (var i = 0; i < m.length; i++ ) {
+		//OutputWindow.OutputLine(i + ' -> ' + m[i]);
+
+		// 替换原来的 [1] 为 (URL)
+		line = m[i].replace(/[\n\r]+/, '');
+		num = line.match(/\[\d+\]/)[0];
+		url = line.match(/http.*/)[0]
+		text = text.replace(num, '(' + url + ')');
+
+		// 移除
+		text = text.replace(m[i], '');
+	}
+
+	// 移除底部的空行
+	text = text.replace(/[\n\r]+$/, '');
+	
+	doc.Text = text;
+}

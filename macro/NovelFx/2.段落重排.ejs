@@ -1,0 +1,7 @@
+
+(function(){
+	var doc = App.ActiveDoc;
+	var originalText = doc.Text;
+	var newText = originalText.replace(/\n([^\s¡¡£ª])/ig, '$1');
+	doc.Text = newText;
+})()

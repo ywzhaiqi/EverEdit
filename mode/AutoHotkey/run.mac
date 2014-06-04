@@ -1,0 +1,25 @@
+If Len(doc.PathName)=0 Then
+	MsgBox "You should save current file with extension .ahk!"
+Else
+	'params=""""+SCRIPT_PATH+"\tcc.exe"" -run """+doc.PathName+""""
+	params=""""+"C:\Program Files\AutoHotkey"+"\AutoHotkey.exe"" /ErrorStdOut """+doc.PathName+""""
+	Set shell = CreateObject("WScript.Shell")
+
+	Set rs=shell.Exec(params)
+	errMsg=rs.StdErr.ReadAll()
+	stdMsg=rs.StdOut.ReadAll()
+
+	Set rs=Nothing
+	Set shell=Nothing
+
+	Set out=App.OutputWindow
+	out.Clear
+	out.Show
+	out.OutputText stdMsg
+	If Len(errMsg)<>0 Then
+		out.OutputText errMsg
+		out.SetJumpPattern "^(.*?):(\d+):", 1, 2, 0
+	End If
+End If
+
+Set doc=Nothing

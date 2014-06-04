@@ -1,0 +1,15 @@
+[Menu]
+Title=AHK
+[Menu0]
+Key=C+B
+Command0=3,Run,${AppPath}\mode\AutoHotkey\run.mac
+[Menu1]
+Command0=2,Spy,${AppPath}\mode\AutoHotkey\Au3Spy.exe
+[Menu2]
+Command0=2,Au3Info,${AppPath}\mode\AutoHotkey\Au3Info.exe
+[Menu3]
+Command0=2,Writer,${AppPath}\mode\AutoHotkey\AutoScriptWriter.exe
+[Menu4]
+SEP=TRUE
+[Menu5]
+Command0=2,Community,http://www.autohotkey.com/board/

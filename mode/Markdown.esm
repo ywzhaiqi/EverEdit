@@ -1,0 +1,102 @@
+[Menu]
+Title=Markdown
+[Menu0]
+Command0=3,转换链接到底部,${AppPath}\mode\markdown\putLinkToFooter.ejs
+[Menu1]
+Command0=3,还原底部的链接,${AppPath}\mode\markdown\revocerLinkFromFooter.ejs
+
+[ToolBar]
+Image16=Markdown\markdown.bmp
+[Button0]
+Icon=6
+Key=CS+B
+Command0=0,Bold,**${SELECTED}$0**
+[Button1]
+Icon=7
+Key=C+I
+Command0=0,Italic,*${SELECTED}$0*
+[Button2]
+Icon=8
+Key=C+U
+Command0=0,Underline,<u>${SELECTED}</u>
+[Button3]
+SEP=TRUE
+[Button4]
+Icon=0
+Key=C+1
+Command0=3,Heading 1,${AppPath}\mode\markdown\h1.mac
+[Button5]
+Icon=1
+Key=C+2
+Command0=3,Heading 2,${AppPath}\mode\markdown\h2.mac
+[Button6]
+Icon=2
+Key=C+3
+Command0=3,Heading 3,${AppPath}\mode\markdown\h3.mac
+[Button7]
+Icon=3
+Key=C+4
+Command0=3,Heading 4,${AppPath}\mode\markdown\h4.mac
+[Button8]
+Icon=4
+Key=C+5
+Command0=3,Heading 5,${AppPath}\mode\markdown\h5.mac
+[Button9]
+Icon=5
+Key=C+6
+Command0=3,Heading 6,${AppPath}\mode\markdown\h6.mac
+[Button10]
+SEP=TRUE
+[Button11]
+Icon=9
+Command0=0,Inline Link Text,[${SELECTED}]($0)
+Command1=0,Reference,[${SELECTED}][$0]
+[Button12]
+Icon=10
+Command0=0,Image,![${SELECTED}]($0)
+Command1=0,Image HTML,<img src="$0" width="" height="" border="0" alt="">
+[Button13]
+Icon=15
+Command0=0,Horizontal Line *,* * *
+[Button14]
+Icon=11
+Command0=0,Insert Symbol,\\
+Command1=0,`,\`
+Command2=0,*,\*
+Command3=0,_,\_
+Command4=0,{},\{\}
+Command5=0,[],\[\]
+Command6=0,(),\(\)
+Command7=0,#,\#
+Command8=0,+,\+
+Command9=0,-,\-
+Command10=0,.,\.
+Command11=0,!,\!
+[Button15]
+Key=C+K,U
+Icon=16
+Command0=3,Unordered List,${AppPath}\mode\markdown\list1.mac
+[Button16]
+Key=C+K,O
+Icon=17
+Command0=3,Ordered List,${AppPath}\mode\markdown\list2.mac
+[Button17]
+Icon=12
+Command0=1,Insert Color,${AppPath}\mode\html\HTMLBar.dll,HTMLColor
+[Button18]
+Icon=13
+Command0=1,Insert Table,${AppPath}\mode\html\HTMLBar.dll,HTMLTable
+[Button19]
+SEP=TRUE
+[Button20]
+Icon=18
+Key=C+K,W
+Command0=3,Preview with External Browser,${AppPath}\mode\markdown\webview.ejs
+[Button21]
+Icon=19
+Key=C+K,E
+Command0=3,Export,${AppPath}\mode\markdown\export.ejs
+[Button22]
+Icon=14
+Key=C+B
+Command0=3,Markdown Preview,${AppPath}\mode\markdown\mkd2html.ejs
