@@ -1,0 +1,28 @@
+'*******************************************************************************
+' EverEdit Syntax File
+' Language:    广告屏蔽大师
+' History:
+'   2014/06/09 First Version
+'*******************************************************************************
+Include( ".\const.mac" )
+
+Set host=CreateParser()
+
+Set rComment=host.CreateRegion(COLOR_COMMENT1, "^\s*#", "$", True )
+
+host.AddRegion( rComment )
+
+host.CommentLine "#"
+
+
+' 以下来自 text.mac
+
+host.WordChars="_"
+
+'number
+host.AddItem( host.CreateItem(COLOR_NUMBER, "\d+", False) )
+
+'operators
+host.AddItem( host.CreateItem(COLOR_WORD1, "[:punct:]+",False ) )
+host.SetPairs( "[]{}()""""''" )
+host.FoldingMethod="indent"

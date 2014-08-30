@@ -1,0 +1,11 @@
+function getJSFormat(text) {
+    var lines = text.split(/[\n\r]+/);
+
+    var arr = [];
+    for (var i = 0; i < lines.length; i++) {
+        arr.push('"' + lines[i]);
+    }
+    return arr.join('\\n" +\n') + '";';
+}
+
+ClipboardText = 'var str = ' + getJSFormat(App.ActiveDoc.SelText);

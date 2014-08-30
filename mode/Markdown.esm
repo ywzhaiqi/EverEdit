@@ -1,10 +1,9 @@
 [Menu]
 Title=Markdown
 [Menu0]
-Command0=3,转换链接到底部,${AppPath}\mode\markdown\putLinkToFooter.ejs
+Command0=3,转换链接到底部,${AppPath}\mode\markdown\my\putLinkToFooter.ejs
 [Menu1]
-Command0=3,还原底部的链接,${AppPath}\mode\markdown\revocerLinkFromFooter.ejs
-
+Command0=3,还原底部的链接,${AppPath}\mode\markdown\my\revocerLinkFromFooter.ejs
 [ToolBar]
 Image16=Markdown\markdown.bmp
 [Button0]
@@ -18,7 +17,7 @@ Command0=0,Italic,*${SELECTED}$0*
 [Button2]
 Icon=8
 Key=C+U
-Command0=0,Underline,<u>${SELECTED}</u>
+Command0=0,Underline,<u>${SELECTED}$0</u>
 [Button3]
 SEP=TRUE
 [Button4]

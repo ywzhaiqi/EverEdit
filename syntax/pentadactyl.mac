@@ -1,0 +1,83 @@
+'*******************************************************************************
+' EverEdit Syntax File
+' Language:     pentadacyl
+' History:
+'   2014/06/10  First Version
+'*******************************************************************************
+Include( ".\const.mac" )
+
+'创建解析器
+Set dactyl=CreateParser()
+
+' ----------- js ---------------------------
+'创建js区域,其文本颜色为默认
+Set rScript=dactyl.CreateRegion( COLOR_DEFAULT, "^js <<EOF$", "^EOF$", True )
+
+'创建一个正则匹配, 把js的开始和结束部分着色为较为明显的区分颜色
+Set iJsBeginEnd=dactyl.CreateItem( COLOR_HIGHLIGHT4, "^(EOF|js <<EOF)\b", True, True )
+
+'然后把它加入到js区域中
+rScript.AddItem( iJsBeginEnd )
+
+'包含js着色
+Set js_creator=dactyl
+Set rJsRegion=rScript
+Include( ".\js_base.mac" )
+
+'把js着色区域加入到着色器中
+dactyl.AddRegion rScript
+
+'创建一个单行的js匹配,注意,没看懂你写的单行匹配,可能需要修改部分. 这儿假设它以-js |:开始到行尾结束$. 开始的部分我们不用正则,所以用++包围起来
+Set rScriptOneLine=dactyl.CreateRegion( COLOR_DEFAULT, "\s*[-:](js|javascript)\s+", "$", True )
+
+rScriptOneLine.AddItem( dactyl.CreateItem( COLOR_SUBLAN, "[-:](js|javascript)", True, True ) )
+
+'再一次创建一个js着色,加入到单行着色区域
+Set rJsRegion=rScriptOneLine
+Include( ".\js_base.mac" )
+
+dactyl.AddRegion rScriptOneLine
+
+' --------------------- css ----------------------
+
+Set rCssOneLine = dactyl.CreateRegion( COLOR_DEFAULT, "\s*sty(le)?\s+(-(n|name)(\s+|=)\S+\s+)([^-]\S+\s+)", "$", True)
+
+'rCssOneLine.AddItem( dactyl.CreateItem( COLOR_SUBLAN, "\s*sty(le)?\s+(-(n|name)(\s+|=)\S+\s+)[^-]\S+\s+", True, True ) )
+
+Set css_creator = dactyl
+Set rCssRegion = rCssOneLine
+Include( ".\css_base.mac" )
+
+dactyl.AddRegion rCssOneLine
+
+' --------------------- noramal ----------------------
+
+'comment
+Set rComment=dactyl.CreateRegion(COLOR_COMMENT1, "^\s*""", "$", True )
+dactyl.AddRegion( rComment )
+
+Set rString2=dactyl.CreateStringRegion( COLOR_STRING1, """", "\", False )
+Set rString1=dactyl.CreateStringRegion( COLOR_STRING2, "'", "\", False )
+dactyl.AddRegion( rString2 )
+dactyl.AddRegion( rString1 )
+
+Set dactylCommand=dactyl.CreateWord(COLOR_WORD1, "loadplugins lpl group ! run Clistkeys Clk Cmap Cnoremap Cunmap Ilistkeys Ilk Imap Inoremap Iunmap abbreviate addons ao autocmd back background bg bdelete blistkeys blk bmap bmark bmarks bnoremap buffer buffers files ls tabs bunmap cabbreviate caretlistkeys caretlk caretmap caretnoremap caretunmap cd chdir clistkeys clk cmap cnoremap colorscheme com com! command command! completions contexts cookies ck cunabbreviate cunmap delbmarks delcommand delgroup delmacros delmarks delqmarks delstyle dialog dlclear doautoall doautocmd downloads dl echo echoerr echomsg else elseif elif emenu endif fi execute exit x extadd extdelete extrm extdisable extedit extenable extoptions extpreferences extrehash exttoggle extupdate feedkeys fk finish forward fw frameonly hardcopy help helpall highlight history hs iabbreviate if ilistkeys ilk imap inoremap iunabbreviate iunmap javascript js jumps keepalt let listcommands lc listkeys lk listoptions lo macros map mark marks messages messclear mkpentadactylrc mkvimruntime mlistkeys mlk mmap mnoremap munmap nlistkeys nlk nmap nnoremap nohlfind noremap normal nunmap olistkeys olk omap onoremap open ounmap pageinfo pagestyle pas pintab preferences prefs private pr0n porn pwd qmark qmarks quit quitall qall redraw registers rehash reload reloadall restart runtime sanitize saveas write sbclose scriptnames set setglobal setlocal sidebar sbar sbopen silent source stop stopall style styledisable stydisable styleenable styenable styletoggle stytoggle tab tabattach tabclose tabdetach tabdo bufdo tabduplicate tablast blast tabmove tabnext tnext bnext tabonly tabopen topen tabnew tabprevious tprevious tabNext tNext bprevious bNext tabrewind tabfirst brewind bfirst time tlistkeys tlk tmap tnoremap toolbarhide tbhide toolbarshow tbshow toolbartoggle tbtoggle tunmap unabbreviate undo undoall unlet unmap unpintab verbose version viewsource vlistkeys vlk vmap vnoremap vunmap winclose wclose window winonly winopen wopen wqall wq xall yank zoom contained nmap set style hi ", False, "!")
+dactylCommand.AutoCase=False
+dactyl.AddWord( dactylCommand )
+
+Set dactylOption=dactyl.CreateWord(COLOR_WORD2, "activate act altwildmode awim autocomplete au cdpath cd complete cpt cookieaccept ca cookielifetime cl cookies ck defsearch ds downloadsort dlsort dls editor encoding enc eventignore ei extendedhinttags eht fileencoding fenc findcase fc findflags ff followhints fh guioptions go helpfile hf hintinputs hin hintkeys hk hintmatching hm hinttags ht hinttimeout hto history hi iskeyword isk jumptags jt linenumbers ln loadplugins lpl maxitems messages msgs newtab nextpattern pageinfo pa passkeys pk passunknown pu popups pps previouspattern runtimepath rtp sanitizeitems si sanitizeshutdown ss sanitizetimespan sts scroll scr scrollsteps scs scrolltime sct shell sh shellcmdflag shcf showmode smd showstatuslinks ssli showtabline stal spelllang spl strictfocus sf suggestengines timeoutlen tmol titlestring urlseparator urlsep us verbose vbs wildanchor wia wildcase wic wildignore wig wildmode wim wildsort wis wordseparators wsp yankshort ys contained nextgroup=pentadactylSetMod", False)
+dactylOption.AutoCase=False
+dactyl.AddWord( dactylOption )
+
+Set dactylAutoEvent=dactyl.CreateWord(COLOR_WORD3, "BookmarkAdd BookmarkChange BookmarkRemove ColorScheme DOMLoad DownloadPost Fullscreen LocationChange PageLoadPre PageLoad PrivateMode Sanitize ShellCmdPost Enter LeavePre Leave contained", False)
+dactylAutoEvent.AutoCase=False
+dactyl.AddWord( dactylAutoEvent )
+
+' 类似 -js :so
+dactyl.AddItem( dactyl.CreateItem( COLOR_SUBLAN, " (-|:)[a-z]+[ =]", True, True ) )
+
+' 按键匹配，类似 <C-c>
+Set dactylKey=dactyl.CreateRegion(COLOR_VAR, "<[a-z\-]+?>", "", False)
+dactyl.AddRegion( dactylKey )
+
+dactyl.CommentLine """"

@@ -1,0 +1,23 @@
+'*******************************************************************************
+' EverEdit Syntax File
+' Language:    广告屏蔽大师
+' History:
+'   2014/06/09 First Version
+'*******************************************************************************
+Include( ".\const.mac" )
+
+Set adblock=CreateParser()
+
+Set rComment=adblock.CreateRegion(COLOR_COMMENT2, "^\s*!", "$", True )
+Set rCommentSpecal=adblock.CreateRegion(COLOR_WORD2, "^\s*!!", "$", True )
+Set exclude=adblock.CreateRegion(COLOR_COMMENT1, "^\s*@@", "$", True )
+Set normal=adblock.CreateRegion(COLOR_DEFAULT, "^\s*|", "$", True )
+'Set cssline=adblock.CreateRegion(COLOR_HIGHLIGHT5, "##", "$", True )
+
+adblock.AddRegion( rCommentSpecal )
+adblock.AddRegion( rComment )
+adblock.AddRegion( exclude )
+adblock.AddRegion( normal )
+'adblock.AddRegion( cssline )
+
+adblock.CommentLine "!"

@@ -12,4 +12,8 @@ Command0=2,Writer,${AppPath}\mode\AutoHotkey\AutoScriptWriter.exe
 [Menu4]
 SEP=TRUE
 [Menu5]
+Command0=2,中文文档,D:\Program Files\AutoHotKey\AutoHotkey.chm
+[Menu6]
+Command0=2,英文文档,C:\Program Files\AutoHotkey\AutoHotkey.chm
+[Menu7]
 Command0=2,Community,http://www.autohotkey.com/board/

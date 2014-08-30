@@ -1,7 +1,41 @@
+var d = ActiveDoc;
+//d.ReplaceAll("^.*", "", false, true, false);
+
+
+function getJSText() {
+	return d.Text.replace(/\r\n/g, '\\r\\n');
+}
+
 
 (function(){
+	//OutputText(getJSText())
+	//return;
+	
 	var doc = App.ActiveDoc;
 	var originalText = doc.Text;
-	var newText = originalText.replace(/\n([^\s　＊])/ig, '$1');
+	
+	var newText = originalText;
+
+	// 去除行首的空格或tab
+	newText = newText.replace(/\n[ 　]+/g, "\n");
+	newText = newText.replace(/[ 　    ]+$/g, "");
+	newText = newText.replace(/\n[\t]+/g, "\n");
+	newText = newText.replace(/[\t]+/g, "  ");
+
+	// 段落间的多个空行改为一个空行
+	newText = newText.replace(/\n[\n\r]+/g, "\n\n　　");
+	// 去除开头的空行
+	newText = newText.replace(/^[\n\r]+/g, "");
+	// 开头加入2个空格
+	//newText = newText.replace(/^/g, "　　");
+
+	//newText = newText.replace(/[\n\r]+/g, "\b")
+
+	// 去除非段落的换行
+	newText = newText.replace(/([^\n])\r\n([^\r])/g, "$1$2");
+
+	// 段落间空一行
+	newText = newText.replace(/\r\n　　/g, "\r\n\r\n　　");
+
 	doc.Text = newText;
 })()
