@@ -1,0 +1,96 @@
+'*******************************************************************************
+' EverEdit Syntax File
+' Language:    Markdown
+' Maintainer:  www.everedit.net
+' History:
+'   2012/05/15 First Version
+'   2013/03/30 Updated i_mdstrong
+'   2013/04/10 Added scope names
+'   2013/04/12 Supported code span(```)
+'	2013/08/10 Updated title and links with [][]
+'*******************************************************************************
+Include( ".\const.mac" )
+
+Set mk=CreateParser()
+
+Set i_mditem=mk.CreateItem(COLOR_WORD1, "^#{1,6}.*$", False)
+Set i_mdno=mk.CreateItem(COLOR_WORD2, "(?<=^\s*)([\*\+\-]|(\d+\.))\s.*$", False)
+Set i_mdistrong=mk.CreateItem(COLOR_HIGHLIGHT3, "(?<!\\)\*\*\*[^\*]+?\*\*\*", False)
+Set i_mdistrong2=mk.CreateItem(COLOR_HIGHLIGHT3, "___[\S\s]+?___", False)
+Set i_mdstrong=mk.CreateItem(COLOR_HIGHLIGHT2, "(?<!\\)\*\*[^\*]+?\*\*", False)
+Set i_mdstrong2=mk.CreateItem(COLOR_HIGHLIGHT2, "__[\S\s]+?__", False)
+Set i_mditalic=mk.CreateItem(COLOR_HIGHLIGHT4, "(?<!\\|\*)\*[^\*]+?\*", False)
+'Set i_mditalic2=mk.CreateItem(COLOR_HIGHLIGHT4, "_[\S\s]+?_", False)
+Set i_mditalic2=mk.CreateItem(COLOR_HIGHLIGHT4, "_[^\]\)]+?_", False)
+Set i_mdlink=mk.CreateItem(COLOR_DEFAULT, "\[(.+?)\]:(.*)", False)
+i_mdlink.Capture 1, COLOR_WORD1
+i_mdlink.Capture 2, COLOR_URL
+
+Set i_mdlink2=mk.CreateItem(COLOR_DEFAULT, "\[(.+?)\]\((.*?)\)", False)
+i_mdlink2.Capture 1, COLOR_WORD1
+i_mdlink2.Capture 2, COLOR_URL
+
+Set i_mdlink3=mk.CreateItem(COLOR_DEFAULT, "\[(.+?)\]\[(.+)\]", False)
+i_mdlink3.Capture 1, COLOR_WORD1
+i_mdlink3.Capture 2, COLOR_URL
+
+Set r_mdtitle=mk.CreateRegion(COLOR_WORD1, "^===={0,20}", "$", False, True)
+
+Set r_mdline1=mk.CreateRegion(COLOR_HIGHLIGHT2, "\*\x20\*\x20\*", "$", False, True)
+Set r_mdline2=mk.CreateRegion(COLOR_HIGHLIGHT2, "-\x20-\x20-", "$", False, True)
+Set r_mdline3=mk.CreateRegion(COLOR_HIGHLIGHT2, "^---*$", "$", False, True)
+Set r_mdline4=mk.CreateRegion(COLOR_HIGHLIGHT2, "^\*\*\*$", "$", False, True)
+Set r_mdlist=mk.CreateRegion(COLOR_WORD2, "^\*\s+.*$", "^(?=\S)", False)
+r_mdlist.AddItem(i_mdlink2)
+
+Set r_mdquote=mk.CreateRegion(COLOR_COMMENT2, "^\s*>", "^$", False)
+Set r_mdcode=mk.CreateRegion(COLOR_COMMENT1, "(?<=^(\x20{4}|\t)).", "^(?!\x20{4})", False)
+Set i_mdcodeline=mk.CreateItem(COLOR_COMMENT1, "`.+?`", False)
+Set r_mdcodeblock=mk.CreateRegion(COLOR_COMMENT2, "^```", "^```", False)
+
+Set r_tag=mk.CreateRegion( COLOR_WORD1, "<\w+|</+|<!+", "/?>", False )
+'html string in tag
+Set r_hdstring  =mk.CreateStringRegion( COLOR_STRING1, """", "", True )
+Set r_hsstring  =mk.CreateStringRegion( COLOR_STRING1, "'", "", True )
+r_tag.AddRegion( r_hdstring )
+r_tag.AddRegion( r_hsstring )
+'word in tag
+r_tag.AddItem( mk.CreateItem(COLOR_WORD2, "\b[\w\-]+\s*=", False) )
+
+r_mdcode.AddRegion( r_tag )
+
+'symbols
+mk.AddItem( mk.CreateItem(COLOR_HIGHLIGHT1, "(?<!\\)\\[^\\]", False) )
+
+mk.AddItem( i_mditem )
+mk.AddItem( i_mdno )
+mk.AddItem( i_mdlink )
+mk.AddItem( i_mdlink2 )
+mk.AddItem( i_mdlink3 )
+
+mk.AddItem( i_mditalic2 )
+mk.AddItem( i_mdstrong2 )
+mk.AddItem( i_mdistrong2 )
+
+mk.AddRegion( r_mdline4 )
+mk.AddItem( i_mditalic )
+mk.AddItem( i_mdstrong )
+mk.AddItem( i_mdistrong )
+
+mk.AddRegion( r_mdline1 )
+mk.AddRegion( r_mdline2 )
+mk.AddRegion( r_mdline3 )
+
+mk.AddRegion( r_mdlist )
+mk.AddRegion( r_mdquote )
+mk.AddRegion( r_mdcode )
+mk.AddRegion( r_mdcodeblock )
+mk.AddItem( i_mdcodeline )
+mk.AddRegion( r_mdtitle )
+
+'this is a hack, if r_tag will return a same state, your can add it to other parents without re-creating.
+mk.AddRegion( r_tag )
+mk.SetPairs( "<>[](){}""""''" )
+mk.FoldingMethod="anytext"
+mk.FoldAnyText 0, "^#.*"
+mk.OnOutline=APP_PATH + "\macro\__outline__\OutlineMarkdown.mac"
